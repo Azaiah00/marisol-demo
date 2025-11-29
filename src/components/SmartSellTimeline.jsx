@@ -193,11 +193,11 @@ const SmartSellTimeline = () => {
     yPosition += 8
 
     pdf.setFontSize(12)
-    pdf.setTextColor(201, 169, 97) // gold
+    pdf.setTextColor(232, 180, 184) // rose gold
     pdf.text('Marisol Gallegos | Realtor®', pageWidth / 2, yPosition, { align: 'center' })
     yPosition += 4
 
-    pdf.setDrawColor(201, 169, 97)
+    pdf.setDrawColor(232, 180, 184)
     pdf.setLineWidth(0.5)
     pdf.line(20, yPosition, pageWidth - 20, yPosition)
     yPosition += 8
@@ -220,10 +220,10 @@ const SmartSellTimeline = () => {
         yPosition = 20
         // Re-add branding on new pages
         pdf.setFontSize(12)
-        pdf.setTextColor(201, 169, 97)
+        pdf.setTextColor(232, 180, 184)
         pdf.text('Marisol Gallegos | Realtor®', pageWidth / 2, yPosition, { align: 'center' })
         yPosition += 4
-        pdf.setDrawColor(201, 169, 97)
+        pdf.setDrawColor(232, 180, 184)
         pdf.setLineWidth(0.5)
         pdf.line(20, yPosition, pageWidth - 20, yPosition)
         yPosition += 12

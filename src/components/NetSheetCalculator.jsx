@@ -180,10 +180,10 @@ const NetSheetCalculator = () => {
     doc.text('Seller Net Sheet Report', 105, 20, { align: 'center' })
     
     doc.setFontSize(12)
-    doc.setTextColor(201, 169, 97) // gold
+    doc.setTextColor(232, 180, 184) // rose gold
     doc.text('Marisol Gallegos | Realtor®', 105, 28, { align: 'center' })
     
-    doc.setDrawColor(201, 169, 97)
+    doc.setDrawColor(232, 180, 184)
     doc.setLineWidth(0.5)
     doc.line(20, 32, 190, 32)
     

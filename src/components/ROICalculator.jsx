@@ -260,11 +260,11 @@ const ROICalculator = () => {
     doc.text('Home Improvement ROI Report', 105, 25, { align: 'center' })
     
     doc.setFontSize(11)
-    doc.setTextColor(201, 169, 97)
+    doc.setTextColor(232, 180, 184)
     doc.setFont(undefined, 'normal')
     doc.text('Marisol Gallegos | Realtor®', 105, 32, { align: 'center' })
     
-    doc.setDrawColor(201, 169, 97)
+    doc.setDrawColor(232, 180, 184)
     doc.setLineWidth(0.5)
     doc.line(20, 36, 190, 36)
     
@@ -320,7 +320,7 @@ const ROICalculator = () => {
     doc.text(formatCurrency(results.valueIncrease), 150, yPos, { align: 'right' })
     
     yPos += 12
-    doc.setDrawColor(201, 169, 97)
+    doc.setDrawColor(232, 180, 184)
     doc.setLineWidth(1)
     doc.line(20, yPos, 190, yPos)
     
@@ -342,7 +342,7 @@ const ROICalculator = () => {
     }
     
     yPos += 10
-    doc.setDrawColor(201, 169, 97)
+    doc.setDrawColor(232, 180, 184)
     doc.setLineWidth(0.5)
     doc.line(20, yPos, 190, yPos)
     
