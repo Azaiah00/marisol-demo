@@ -33,7 +33,7 @@
 
   /* Enhanced gradient backgrounds */
   .gradient-section {
-    background: linear-gradient(135deg, rgba(249, 250, 251, 0.8) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(135deg, #FFF0F3 0%, #FFFFFF 100%);
   }
 
   /* Better focus states for accessibility */
@@ -76,7 +76,7 @@
     transform: translateX(-50%);
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #c9a961, transparent);
+    background: linear-gradient(90deg, transparent, #D48C9F, transparent);
     border-radius: 2px;
   }
 
@@ -122,12 +122,12 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    background: linear-gradient(135deg, #2d2d2d 0%, #3a3a3a 50%, #4a4a4a 100%);
+    background: linear-gradient(135deg, #2d2426 0%, #3a2e32 50%, #4a3b40 100%);
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.15) 0%, transparent 50%),
-      linear-gradient(135deg, rgba(45, 45, 45, 0.95) 0%, rgba(58, 58, 58, 0.95) 50%, rgba(74, 74, 74, 0.95) 100%),
-      url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600');
+      radial-gradient(circle at 20% 50%, rgba(212, 140, 159, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(212, 140, 159, 0.05) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(45, 36, 38, 0.95) 0%, rgba(58, 46, 50, 0.95) 50%, rgba(74, 59, 64, 0.95) 100%),
+      url('https://images.unsplash.com/photo-1600596542815-27b8c0fc4e64?w=1600');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -267,7 +267,7 @@
   }
 
   .nav-cta {
-    background: linear-gradient(135deg, #c9a961, #d4af37) !important;
+    background: linear-gradient(135deg, #D48C9F, #E3A8B6) !important;
     color: white !important;
     padding: 0.5rem 1rem !important;
     font-size: 0.875rem !important;

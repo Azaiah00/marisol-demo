@@ -672,13 +672,13 @@ function App() {
       >
         <div className="nav-container">
           <div className="nav-center-wrapper">
-            {/* Center - Frederick Sales */}
+            {/* Center - Marisol Gallegos */}
               <button
               onClick={scrollToTop}
               className={`nav-logo ${isScrolled ? 'scrolled' : ''}`}
-              aria-label="Frederick Sales - Return to top"
+              aria-label="Marisol Gallegos - Return to top"
             >
-              Frederick Sales<sup>®</sup>
+              Marisol Gallegos<sup>®</sup>
               </button>
 
             {/* Right Side - CTA Button (Desktop) */}
@@ -744,8 +744,8 @@ function App() {
         <div className="hero-content">
           <div className="hero-image-wrapper">
             <img 
-              src="/images/fred-professional1.jpg" 
-              alt="Frederick Sales - Real Estate Agent"
+              src="/images/marisol-profile.jpg" 
+              alt="Marisol Gallegos - Real Estate Agent"
               className="hero-photo cursor-pointer hover:scale-105 transition-transform"
               onClick={() => setShowPhotoModal(true)}
               onError={(e) => {
@@ -761,13 +761,13 @@ function App() {
           </div>
           <div className="hero-trust-badge">
             <span className="trust-badge-icon">✓</span>
-            <span>Licensed in VA, DC & MD • 7+ Years Experience</span>
+            <span>VOTED "TOP 10 REALTOR ON SOCIAL MEDIA" • Buying & Selling Expert</span>
           </div>
           <h1 className="hero-title">Sell Your Home with Confidence</h1>
-          <p className="hero-slogan">Expert guidance for home sellers in DC, VA & MD.</p>
+          <p className="hero-slogan">Buying | Selling | New Construction Expert | Dallas, Frisco</p>
           <p className="hero-intro">
-            Hi, I'm Frederick Sales! I grew up in Alexandria, VA and I currently live in Washington DC in the SW Waterfront neighborhood. As a native of the DMV, I have deep, local knowledge of the neighborhoods, market trends, and what buyers are looking for in Washington DC, Virginia, and Maryland. This insider perspective helps me price your home competitively, market it effectively, and connect with the right buyers faster. Selling your home in the DMV area is a huge decision, and as your realtor, I'm here to make it smarter, simpler, and way more profitable. 
-            With 7+ years of experience helping home sellers in Northern Virginia, Washington DC, and Maryland, I've built a proven system to get your home sold for top dollar. Whether you're selling in Washington DC, Arlington, Alexandria, Bethesda, Fairfax, or anywhere in the DMV, I'll guide you through every step with expertise and care. <strong>Let's work together to maximize your home's value!</strong>
+            Hi, I'm Marisol Gallegos! I'm a New Construction Expert and Top Realtor serving Dallas, Frisco, and the surrounding DFW area. With a passion for helping families find their dream homes and get top dollar for their sales, I bring a fresh, dynamic approach to real estate. My goal is to make your home selling journey smoother, faster, and more profitable.
+            Whether you're selling in Dallas, Frisco, Plano, or anywhere in the DFW metroplex, I'll guide you through every step with expertise and care. <strong>Let's work together to maximize your home's value!</strong>
           </p>
           <motion.button
             onClick={() => scrollToSection('contact')}
@@ -793,7 +793,7 @@ function App() {
           >
             <h2 className="section-title">From Pre-Market to SOLD</h2>
             <p className="section-subtitle">
-              Your step-by-step roadmap to a successful home sale in Washington DC, Virginia, and Maryland
+              Your step-by-step roadmap to a successful home sale in Dallas, Frisco, and the DFW Metroplex
             </p>
           </motion.div>
 
@@ -869,7 +869,7 @@ function App() {
                 <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
                   <li>Comprehensive <span className="tooltip-trigger" data-tooltip="Comparative Market Analysis (CMA): A detailed report comparing your home to similar properties that have recently sold, are currently for sale, or were listed but didn't sell. This helps determine the optimal listing price.">CMA</span> analysis using recent sales data</li>
                   <li>Strategic pricing to maximize buyer interest and final sale price</li>
-                  <li>Market positioning based on current DMV real estate trends</li>
+                  <li>Market positioning based on current DFW real estate trends</li>
                   <li>Price adjustment strategy if market conditions change</li>
                   <li>Competitive analysis of similar homes in your neighborhood</li>
                 </ul>
@@ -1193,7 +1193,7 @@ function App() {
                   </li>
                 </ul>
                 <p className="text-gray-700">
-                  Plus, your listing is visible to <strong>thousands of real estate agents</strong> in the DMV area who actively search the MLS for properties matching their clients' criteria. This means your home reaches buyers who are actively looking and ready to purchase. <strong>Ask me more about our comprehensive marketing strategy and how we maximize your home's exposure.</strong>
+                  Plus, your listing is visible to <strong>thousands of real estate agents</strong> in the DFW area who actively search the MLS for properties matching their clients' criteria. This means your home reaches buyers who are actively looking and ready to purchase. <strong>Ask me more about our comprehensive marketing strategy and how we maximize your home's exposure.</strong>
                 </p>
               </div>
             </div>
@@ -1228,7 +1228,7 @@ function App() {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Professional Network:</strong> Access to the entire real estate agent network in the DMV</span>
+                    <span><strong>Professional Network:</strong> Access to the entire real estate agent network in DFW</span>
                   </li>
                 </ul>
               </div>
@@ -1819,13 +1819,13 @@ function App() {
               <div className="mt-8 pt-8 border-t border-gray-200">
                 <p className="text-center text-gray-600 mb-4">Or contact us directly:</p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <a href="mailto:fred@kerishullteam.com" className="flex items-center gap-2 text-navy hover:text-primary transition-colors">
-                    <Mail size={20} />
-                    <span>fred@kerishullteam.com</span>
+                  <a href="https://calendly.com/marisoldfwrealestate" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-navy hover:text-primary transition-colors">
+                    <Calendar size={20} />
+                    <span>Schedule a Call</span>
                   </a>
-                  <a href="tel:7033994394" className="flex items-center gap-2 text-navy hover:text-primary transition-colors">
+                  <a href="tel:9036036903" className="flex items-center gap-2 text-navy hover:text-primary transition-colors">
                     <Phone size={20} />
-                    <span>(703) 399-4394</span>
+                    <span>(903) 603-6903</span>
                   </a>
                 </div>
                 
@@ -1911,16 +1911,16 @@ function App() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.div variants={fadeInUp} className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
               <div className="flex justify-center mb-4" aria-hidden="true">
                 <Wrench size={48} className="text-primary" />
               </div>
               <h3 className="text-xl font-bold text-navy mb-3">Your Vendor Source</h3>
               <p className="text-gray-700 leading-relaxed">
                 Need a great plumber, painter, or contractor? Our trusted vendor list is now your list. 
-                We've vetted the best service providers in the DMV area.
+                We've vetted the best service providers in the DFW area.
               </p>
-            </motion.div>
+            </div>
 
             <motion.div variants={fadeInUp} className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 sm:p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
               <div className="flex justify-center mb-4" aria-hidden="true">
@@ -1939,7 +1939,7 @@ function App() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-navy mb-3">We Give Back Together</h3>
               <p className="text-gray-700 leading-relaxed">
-                We love the DMV. For every referral we receive, we donate $250 to charities like Habitat 
+                We love our community. For every referral we receive, we donate to local charities like Habitat 
                 for Humanity, St. Jude's, and Meals on Wheels.
               </p>
             </motion.div>
@@ -2104,9 +2104,9 @@ function App() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-title text-white">Why Work With Me & The KS Team?</h2>
+            <h2 className="section-title text-white">Why Work With Me?</h2>
             <p className="section-subtitle text-gray-300 mb-12">
-              When you work with me as your realtor, you're not just hiring Frederick Sales; you're hiring the entire KS Team.
+              When you work with me, you're working with a Top 10 Realtor on Social Media who knows how to market your home.
             </p>
           </motion.div>
 
@@ -2118,20 +2118,20 @@ function App() {
             viewport={{ once: true }}
           >
             <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2">5,275+</div>
-              <div className="text-xs sm:text-sm text-gray-300 font-semibold">Families Helped</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2">TOP 10</div>
+              <div className="text-xs sm:text-sm text-gray-300 font-semibold">Realtor on Social Media</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
-              <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-2">$5 BILLION+</div>
-              <div className="text-xs sm:text-sm text-gray-300 font-semibold">In Team Sales</div>
+              <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-2">EXPERT</div>
+              <div className="text-xs sm:text-sm text-gray-300 font-semibold">New Construction</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">TOP TEAM</div>
-              <div className="text-xs sm:text-sm text-gray-300 font-semibold">In the DMV Since 2008</div>
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">DALLAS</div>
+              <div className="text-xs sm:text-sm text-gray-300 font-semibold">Local Market Expert</div>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">7+ YEARS</div>
-              <div className="text-xs sm:text-sm text-gray-300 font-semibold">Experience</div>
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">RESULTS</div>
+              <div className="text-xs sm:text-sm text-gray-300 font-semibold">Driven Approach</div>
             </motion.div>
           </motion.div>
 
@@ -2142,7 +2142,7 @@ function App() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            We have the track record, the resources, and the market intel to ensure you get the best possible outcome for your home sale. 
+            I have the social media presence, the resources, and the market intel to ensure you get the best possible outcome for your home sale. 
             <strong> Let's work together to maximize your home's value!</strong>
           </motion.p>
         </div>
@@ -2168,8 +2168,8 @@ function App() {
             onClick={(e) => e.stopPropagation()}
           >
             <img 
-              src="/images/fred-professional1.jpg" 
-              alt="Frederick Sales - Real Estate Agent"
+              src="/images/marisol-profile.jpg" 
+              alt="Marisol Gallegos - Real Estate Agent"
               className="w-full h-auto rounded-lg shadow-2xl"
               loading="lazy"
             />
@@ -2188,8 +2188,8 @@ function App() {
       <footer className="bg-navy-dark text-white py-12">
         <div className="container">
           <div className="text-center space-y-4">
-            <p className="text-xl font-bold">Frederick Sales | Realtor®</p>
-            <p className="text-gray-400">Licensed in VA, DC, & MD</p>
+            <p className="text-xl font-bold">Marisol Gallegos | Realtor®</p>
+            <p className="text-gray-400">Licensed in Texas • Serving Dallas, Frisco & DFW</p>
             <p className="text-sm text-gray-500">Equal Housing Opportunity</p>
           </div>
         </div>

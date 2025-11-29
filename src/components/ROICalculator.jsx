@@ -262,7 +262,7 @@ const ROICalculator = () => {
     doc.setFontSize(11)
     doc.setTextColor(201, 169, 97)
     doc.setFont(undefined, 'normal')
-    doc.text('Fred Sales | KS Team', 105, 32, { align: 'center' })
+    doc.text('Marisol Gallegos | Realtor®', 105, 32, { align: 'center' })
     
     doc.setDrawColor(201, 169, 97)
     doc.setLineWidth(0.5)

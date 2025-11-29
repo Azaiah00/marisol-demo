@@ -8,21 +8,21 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#c9a961',
-          dark: '#b8964a',
-          light: '#d4af37',
+          DEFAULT: '#D48C9F', // Rose Gold/Pink
+          dark: '#B56B7F',
+          light: '#F5D0D8',
         },
         navy: {
-          DEFAULT: '#1a202c',
-          dark: '#0d1117',
+          DEFAULT: '#2D2426', // Dark warm grey/brown instead of harsh navy
+          dark: '#1A1415',
         },
         gold: {
-          DEFAULT: '#c9a961',
-          light: '#d4af37',
+          DEFAULT: '#D4AF37', // Keep gold for accents
+          light: '#E5C565',
         },
         teal: {
-          DEFAULT: '#14b8a6',
-          dark: '#0d9488',
+          DEFAULT: '#D48C9F', // Replace teal with primary rose
+          dark: '#B56B7F',
         }
       },
       fontFamily: {

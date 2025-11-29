@@ -194,7 +194,7 @@ const SmartSellTimeline = () => {
 
     pdf.setFontSize(12)
     pdf.setTextColor(201, 169, 97) // gold
-    pdf.text('Fred Sales | KS Team', pageWidth / 2, yPosition, { align: 'center' })
+    pdf.text('Marisol Gallegos | Realtor®', pageWidth / 2, yPosition, { align: 'center' })
     yPosition += 4
 
     pdf.setDrawColor(201, 169, 97)
@@ -221,7 +221,7 @@ const SmartSellTimeline = () => {
         // Re-add branding on new pages
         pdf.setFontSize(12)
         pdf.setTextColor(201, 169, 97)
-        pdf.text('Fred Sales | KS Team', pageWidth / 2, yPosition, { align: 'center' })
+        pdf.text('Marisol Gallegos | Realtor®', pageWidth / 2, yPosition, { align: 'center' })
         yPosition += 4
         pdf.setDrawColor(201, 169, 97)
         pdf.setLineWidth(0.5)
