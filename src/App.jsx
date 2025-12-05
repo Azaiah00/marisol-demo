@@ -4,6 +4,7 @@ import {
   Menu, 
   X, 
   ArrowUp, 
+  ArrowUpRight,
   Camera, 
   Layout, 
   Calendar,
@@ -26,7 +27,9 @@ import {
   FileText,
   BarChart3,
   MessageCircle,
-  BookOpen
+  BookOpen,
+  Calculator,
+  HelpCircle
 } from 'lucide-react'
 import NetSheetCalculator from './components/NetSheetCalculator'
 import ROICalculator from './components/ROICalculator'
@@ -110,7 +113,7 @@ const VirtualStagingSlider = () => {
   return (
     <div 
       ref={containerRef}
-      className="slider-container relative w-full h-[500px] md:h-[600px] cursor-col-resize select-none"
+      className="slider-container relative w-full h-[500px] md:h-[600px] cursor-col-resize select-none rounded-2xl overflow-hidden shadow-pink-xl"
       onClick={handleContainerClick}
       onTouchStart={(e) => {
         if (e.target.closest('.slider-handle')) return
@@ -121,45 +124,45 @@ const VirtualStagingSlider = () => {
       }}
     >
       {/* After Image (Background - Left Side) */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 rounded-2xl overflow-hidden">
         <img
-          src="/images/public:images:virtual-staging-afte.PNG"
+          src="/images/public_images_virtual-staging-afte.PNG"
           alt="Room after virtual staging"
           className="w-full h-full object-cover"
           draggable={false}
           loading="lazy"
         />
-        <div className="absolute top-4 left-4 bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold backdrop-blur-sm">
+        <div className="absolute top-4 left-4 glass-card text-black px-4 py-2 rounded-lg font-semibold shadow-pink-md">
           After
         </div>
       </div>
 
       {/* Before Image (Clipped - Right Side) */}
       <div
-        className="absolute inset-0 overflow-hidden"
+        className="absolute inset-0 overflow-hidden rounded-2xl"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
         <img
-          src="/images/public:images:virtual-staging-before.jpeg"
+          src="/images/public_images_virtual-staging-before.jpeg"
           alt="Empty room before virtual staging"
           className="w-full h-full object-cover"
           draggable={false}
           loading="lazy"
         />
-        <div className="absolute top-4 right-4 bg-black/70 text-white px-4 py-2 rounded-lg font-semibold backdrop-blur-sm">
+        <div className="absolute top-4 right-4 glass-card text-black px-4 py-2 rounded-lg font-semibold shadow-pink-md">
           Before
         </div>
       </div>
 
       {/* Slider Line */}
       <div
-        className="slider-handle absolute top-0 bottom-0 w-1 bg-white shadow-2xl z-10 cursor-col-resize"
+        className="slider-handle absolute top-0 bottom-0 w-1 bg-white shadow-pink-xl z-10 cursor-col-resize"
         style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleMouseDown}
       >
         {/* Slider Handle */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center border-4 border-primary hover:scale-110 transition-transform">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-pink-lg flex items-center justify-center border-4 border-primary hover:scale-110 transition-all duration-300 hover:shadow-pink-xl">
           <div className="flex gap-1">
             <div className="w-1 h-4 bg-primary rounded-full"></div>
             <div className="w-1 h-4 bg-primary rounded-full"></div>
@@ -169,7 +172,7 @@ const VirtualStagingSlider = () => {
       </div>
 
       {/* Instructions */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-lg text-sm backdrop-blur-sm">
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 glass-card text-black px-4 py-2 rounded-lg text-sm font-semibold shadow-pink-md">
         ← Drag to compare →
       </div>
     </div>
@@ -490,9 +493,15 @@ function App() {
   // Track active chapter based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      // Sections in order as they appear on the page
-      const sections = ['roadmap', 'marketing', 'financials', 'calculator', 'contact', 'relationship', 'faq', 'glossary']
+      // Sections in order as they appear on the page (only actual sections)
+      const sections = ['home', 'services', 'financials', 'relationship', 'faq', 'contact', 'trust']
       const scrollPosition = window.scrollY + 200
+      
+      // If near the top, set activeChapter to null (home)
+      if (window.scrollY < 300) {
+        setActiveChapter(null)
+        return
+      }
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i])
@@ -607,9 +616,20 @@ function App() {
     }
   }
 
+  // Sidebar navigation - only sections that actually exist, in order
+  const sidebarChapters = [
+    { id: 'home', title: 'Home', icon: Home },
+    { id: 'services', title: 'Services', icon: Camera },
+    { id: 'financials', title: 'Financials', icon: DollarSign },
+    { id: 'relationship', title: 'Relationship', icon: Heart },
+    { id: 'faq', title: 'FAQ', icon: HelpCircle },
+    { id: 'contact', title: 'Contact', icon: Mail },
+    { id: 'trust', title: 'Why Work With Me', icon: Star }
+  ]
+  
+  // Keep old chapters for mobile menu compatibility
   const chapters = [
-    { id: 'roadmap', title: 'Process' },
-    { id: 'marketing', title: 'Marketing' },
+    { id: 'services', title: 'Services' },
     { id: 'financials', title: 'Financials' },
     { id: 'calculator', title: 'Seller Tools' },
     { id: 'faq', title: 'FAQ' },
@@ -625,43 +645,36 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* SIDEBAR NAVIGATION */}
-      <aside className="hidden lg:block fixed left-0 top-[140px] bottom-0 z-40 flex items-start pt-4">
-        <nav className="sidebar-nav rounded-r-2xl p-4 min-w-[140px]">
-          <div className="space-y-1">
-            {chapters.map((chapter, index) => (
-              <div key={chapter.id}>
-            <button
-                  onClick={() => {
-                    if (chapter.id === 'glossary') {
-                      handleOpenGlossary()
-                    } else {
-                      scrollToSection(chapter.id)
-                    }
-                  }}
-                  className={`sidebar-button w-full text-left px-3 py-2.5 rounded-xl group ${
-                    activeChapter === chapter.id ? 'active' : ''
-                  }`}
-                >
-                  <div className={`font-semibold text-xs tracking-wide transition-all duration-300 relative z-10 ${
-                    activeChapter === chapter.id 
-                      ? 'text-white' 
-                      : 'text-gray-200 group-hover:text-primary-light'
-                  }`}>
-                    {chapter.title}
-                  </div>
-            </button>
-                {index < chapters.length - 1 && (
-                  <div className={`sidebar-divider mx-2 my-1.5 ${
-                    activeChapter === chapter.id || activeChapter === chapters[index + 1]?.id
-                      ? 'active'
-                      : ''
-                  }`} />
-                )}
-              </div>
-            ))}
-          </div>
-        </nav>
+      {/* SIDEBAR NAVIGATION - Slim & Sleek */}
+      <aside className="sidebar-nav" aria-label="Sidebar navigation">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-col items-center space-y-2"
+        >
+          {/* Navigation Items - Only actual sections */}
+          {sidebarChapters.map((chapter, index) => {
+            const Icon = chapter.icon
+            return (
+              <motion.button
+                key={chapter.id}
+                onClick={() => chapter.id === 'home' ? scrollToTop() : scrollToSection(chapter.id)}
+                className={`sidebar-nav-item group ${activeChapter === chapter.id || (chapter.id === 'home' && activeChapter === null) ? 'active' : ''}`}
+                aria-label={chapter.title}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon size={20} />
+                <span className="sidebar-nav-tooltip">{chapter.title}</span>
+                <span className="sidebar-nav-indicator"></span>
+              </motion.button>
+            )
+          })}
+        </motion.div>
       </aside>
 
       {/* STICKY NAVIGATION */}
@@ -703,14 +716,14 @@ function App() {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation - Enhanced with Glassmorphism */}
           {mobileMenuOpen && (
             <motion.div
               id="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 pb-4 space-y-3"
+              className="md:hidden mt-4 pb-4 space-y-3 glass-card rounded-2xl p-4 shadow-pink-md"
               role="navigation"
               aria-label="Mobile navigation"
             >
@@ -718,10 +731,10 @@ function App() {
               <button
                   key={chapter.id}
                   onClick={() => scrollToSection(chapter.id)}
-                  className={`block w-full text-left font-semibold py-2 px-2 rounded-md transition-colors ${
+                  className={`block w-full text-left font-semibold py-3 px-4 rounded-lg transition-all duration-300 ${
                     activeChapter === chapter.id
-                      ? 'text-primary bg-primary/10'
-                      : 'text-navy hover:text-primary'
+                      ? 'text-primary bg-white/30 shadow-pink-sm'
+                      : 'text-navy hover:text-primary hover:bg-white/20'
                   }`}
                 >
                   {chapter.title}
@@ -729,7 +742,7 @@ function App() {
               ))}
               <button
                 onClick={() => scrollToSection('contact')}
-                className="cta-button primary w-full"
+                className="w-full nav-cta mt-2"
               >
                 Get Started
               </button>
@@ -738,609 +751,352 @@ function App() {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
-      <section className="hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="hero-image-wrapper">
-            <img 
-              src="/images/marisol-profile.jpg" 
-              alt="Marisol Gallegos - Real Estate Agent"
-              className="hero-photo cursor-pointer hover:scale-105 transition-transform"
-              onClick={() => setShowPhotoModal(true)}
-              onError={(e) => {
-                // Fallback to placeholder if image doesn't exist
-                e.target.style.display = 'none';
-                e.target.nextElementSibling.style.display = 'flex';
-              }}
-            />
-            <div className="hero-photo-placeholder" style={{display: 'none'}}>
-              <Camera size={48} className="text-gray-400" />
-              <p>Add Your Professional Photo Here</p>
+      {/* MAIN CONTENT - Offset for Sidebar */}
+      <div className="lg:ml-20">
+      {/* HERO SECTION - Restructured with About Content */}
+      <section className="hero pt-24" id="home">
+        <div className="hero-content items-start">
+          {/* Left Column: Hero Text and Buttons */}
+          <motion.div 
+            className="hero-text flex flex-col"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <div className="inline-block px-4 py-1 mb-4 border border-black rounded-full text-xs font-bold tracking-wider uppercase glass shadow-pink-sm w-fit">
+              Top 10 Realtor on Social Media
             </div>
-          </div>
-          <div className="hero-trust-badge">
-            <span className="trust-badge-icon">✓</span>
-            <span>VOTED "TOP 10 REALTOR ON SOCIAL MEDIA" • Buying & Selling Expert</span>
-          </div>
-          <h1 className="hero-title">Sell Your Home with Confidence</h1>
-          <p className="hero-slogan">Buying | Selling | New Construction Expert | Dallas, Frisco</p>
-          <p className="hero-intro">
-            Hi, I'm Marisol Gallegos! I'm a New Construction Expert and Top Realtor serving Dallas, Frisco, and the surrounding DFW area. With a passion for helping families find their dream homes and get top dollar for their sales, I bring a fresh, dynamic approach to real estate. My goal is to make your home selling journey smoother, faster, and more profitable.
-            Whether you're selling in Dallas, Frisco, Plano, or anywhere in the DFW metroplex, I'll guide you through every step with expertise and care. <strong>Let's work together to maximize your home's value!</strong>
-          </p>
-          <motion.button
-            onClick={() => scrollToSection('contact')}
-            className="cta-button primary min-h-[48px] text-base sm:text-lg px-6 sm:px-8 focus:outline-none focus:ring-4 focus:ring-primary/50 focus:ring-offset-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ touchAction: 'manipulation' }}
-            aria-label="Schedule your free seller consultation"
-          >
-            Schedule My Free Seller Consultation
-          </motion.button>
-        </div>
-      </section>
-
-      {/* ROADMAP SECTION */}
-      <section id="roadmap" className="py-20 bg-white">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="section-title">From Pre-Market to SOLD</h2>
-            <p className="section-subtitle">
-              Your step-by-step roadmap to a successful home sale in Dallas, Frisco, and the DFW Metroplex
+            <h1 className="hero-title mb-4">
+              Sell Your Home<br />
+              <span className="text-gray-400">with Confidence</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-6 max-w-xl leading-relaxed">
+              Buying | Selling | New Construction Expert<br/>
+              Serving Dallas, Frisco & DFW Metroplex
             </p>
-          </motion.div>
-
-          <motion.div
-            className="max-w-4xl mx-auto space-y-6 sm:space-y-8"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Step 1 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                1
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Strategic Consultation</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  We start by reviewing your goals, timeline, and conducting a comprehensive market analysis. 
-                  This foundation sets the stage for everything that follows.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>In-depth conversation about your goals and timeline</li>
-                  <li>Comprehensive Market Analysis (CMA) of your property</li>
-                  <li>Review of comparable sales in your area</li>
-                  <li>Discussion of current market conditions</li>
-                  <li>Net proceeds calculation and financial planning</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 2 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                2
-              </div>
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4 border border-primary/20">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Property Prep & Staging</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  Decluttering, repairs, and leveraging our "Virtual Staging Advantage" (more on this later). 
-                  We transform your home into a buyer's dream before they even step foot inside.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Home walkthrough to identify necessary repairs vs. cosmetic improvements</li>
-                  <li>Decluttering and depersonalization strategy</li>
-                  <li>Virtual staging included (multiple design styles available)</li>
-                  <li>Curb appeal enhancement recommendations</li>
-                  <li>Minor repairs and touch-ups as needed</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 3 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                3
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Pricing Strategy</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  Positioning your home to attract the maximum pool of buyers. We analyze comparable sales 
-                  and market conditions to price it right from day one.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Comprehensive <span className="tooltip-trigger" data-tooltip="Comparative Market Analysis (CMA): A detailed report comparing your home to similar properties that have recently sold, are currently for sale, or were listed but didn't sell. This helps determine the optimal listing price.">CMA</span> analysis using recent sales data</li>
-                  <li>Strategic pricing to maximize buyer interest and final sale price</li>
-                  <li>Market positioning based on current DFW real estate trends</li>
-                  <li>Price adjustment strategy if market conditions change</li>
-                  <li>Competitive analysis of similar homes in your neighborhood</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 4 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                4
-              </div>
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4 border border-primary/20">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">The "Coming Soon" Launch</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  Generating buzz before we even hit the <span className="tooltip-trigger" data-tooltip="Multiple Listing Service (MLS): A database used by real estate agents to share information about properties for sale. When your home is listed on the MLS, it becomes visible to all agents and appears on major real estate websites like Zillow, Realtor.com, and Redfin.">MLS</span>. We create anticipation and build a waiting list 
-                  of qualified buyers before your home officially goes live.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Exclusive preview to our network of buyer agents and qualified buyers</li>
-                  <li>Social media teaser campaign to build anticipation</li>
-                  <li>Email marketing to our database of active buyers</li>
-                  <li>Pre-listing showings for serious buyers</li>
-                  <li>Create competitive interest before official listing date</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 5 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                5
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Live on Market & Open Houses</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  We don't just open doors; we collect critical feedback from every visitor to adjust our 
-                  strategy in real-time. Every showing is an opportunity to refine and improve.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Professional open house events with strategic scheduling</li>
-                  <li>Aggressive follow-up with every visitor within 24 hours</li>
-                  <li>Feedback collection and analysis to adjust strategy</li>
-                  <li>Private showings scheduled around your convenience</li>
-                  <li>Real-time market response tracking and price adjustments if needed</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 6 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                6
-              </div>
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4 border border-primary/20">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Reviewing Offers & Negotiations</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  We negotiate terms, not just price. From closing dates to <span className="tooltip-trigger" data-tooltip="Contingency: A condition in the purchase offer that must be met for the sale to proceed. Common contingencies include home inspection, appraisal, financing, and home sale contingencies.">contingencies</span>, we ensure every 
-                  aspect of the deal works in your favor.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Comprehensive offer analysis comparing price, terms, and buyer qualifications</li>
-                  <li>Strategic negotiation to maximize your net proceeds</li>
-                  <li>Counter-offer strategy to get the best possible terms</li>
-                  <li>Protection of your interests through careful contract review</li>
-                  <li>Coordination with buyer's agent to ensure smooth negotiations</li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Step 7 */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative pl-10 sm:pl-12 border-l-4 border-primary"
-            >
-              <div className="absolute -left-4 sm:-left-6 top-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                7
-              </div>
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 ml-2 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-navy mb-3">Escrow & Closing</h3>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  Managing inspections, <span className="tooltip-trigger" data-tooltip="Appraisal: A professional assessment of your home's value by a licensed appraiser. Required by lenders to ensure the property is worth the loan amount. If the appraisal comes in lower than the sale price, we may need to renegotiate.">appraisals</span>, and paperwork until you get paid. We handle every detail 
-                  so you can focus on your next chapter.
-                </p>
-                <ul className="list-disc list-inside text-gray-600 space-y-1 text-sm">
-                  <li>Coordination of home inspection and addressing any issues</li>
-                  <li>Appraisal management and value protection strategies</li>
-                  <li>Title work and <span className="tooltip-trigger" data-tooltip="Escrow: A neutral third party that holds funds and documents during the transaction. The escrow company ensures all conditions are met before funds are released and ownership is transferred.">escrow</span> coordination</li>
-                  <li>Final walkthrough scheduling and completion</li>
-                  <li>Closing day coordination - you just show up and sign</li>
-                  <li>Post-closing support and key handoff</li>
-                </ul>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ELITE MARKETING PLAN SECTION */}
-      <section id="marketing" className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="section-title">Our Proven Marketing Plan</h2>
-            <p className="section-subtitle">
-              Our comprehensive marketing strategy designed to maximize your home's exposure and value
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-8 mb-16"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Professional Photography */}
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
-            >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110">
-                <Camera className="text-primary" size={32} />
-              </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Professional Photography</h3>
-              <p className="text-gray-600 leading-relaxed">
-                First impressions are digital. We use HDR editorial-grade photography that makes your home 
-                stand out in online listings.
-              </p>
-            </motion.div>
-
-            {/* Floor Plans */}
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
-            >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110">
-                <Layout className="text-primary" size={32} />
-              </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Floor Plans</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Buyers need to visualize the flow. Included with every listing to help buyers understand 
-                your home's layout and potential.
-              </p>
-            </motion.div>
-
-            {/* Open House Strategy */}
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
-            >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110">
-                <Calendar className="text-primary" size={32} />
-              </div>
-              <h3 className="text-xl font-bold text-navy mb-3">Open House Strategy</h3>
-              <p className="text-gray-600 leading-relaxed">
-                We use Open Houses to identify qualified buyers, convert lookers into offers, and perform 
-                aggressive follow-up prospecting immediately after the event.
-              </p>
-            </motion.div>
-          </motion.div>
-
-          {/* Virtual vs Traditional Staging Comparison */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
-          >
-            <h3 className="text-3xl font-bold text-center text-navy mb-8">
-              Staging Showdown: Virtual vs. Traditional
-            </h3>
-            
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-              <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x">
-                {/* Traditional Staging */}
-                <div className="p-8 bg-gray-50">
-                  <h4 className="text-2xl font-bold text-navy mb-6 text-center">Traditional Staging</h4>
-                  <ul className="space-y-4">
-                    <li className="flex items-start gap-3">
-                      <X className="text-red-500 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>High Cost:</strong> $$$ Thousands of dollars</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <X className="text-red-500 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Intrusive:</strong> Requires moving furniture in/out</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <X className="text-red-500 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Risk of Damage:</strong> Potential wear and tear</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <X className="text-red-500 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Limited Options:</strong> One design style</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Virtual Staging */}
-                <div className="p-6 sm:p-8 bg-primary/5">
-                  <h4 className="text-xl sm:text-2xl font-bold text-primary mb-4 sm:mb-6 text-center">Virtual Staging (Our Method)</h4>
-                  <ul className="space-y-4">
-                    <li className="flex items-start gap-3">
-                      <CheckCircle className="text-green-600 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Cost-effective:</strong> Included in our service</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle className="text-green-600 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Unlimited Design Styles:</strong> Try multiple looks</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle className="text-green-600 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Fast Turnaround:</strong> Quick and efficient</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle className="text-green-600 mt-1 flex-shrink-0" size={20} />
-                      <span className="text-gray-700"><strong>Attracts Online Clicks:</strong> Modern and eye-catching</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <a 
+                href="#contact" 
+                className="btn-pill btn-primary group"
+              >
+                Book Consultation
+                <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+              </a>
             </div>
-
-            <p className="text-center text-gray-600 mt-6 italic">
-              Our Virtual Staging is the smarter, modern choice that saves you money while maximizing your home's appeal.
-            </p>
           </motion.div>
-
-          {/* Virtual Staging Before/After Slider */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-5xl mx-auto mt-12"
-          >
-            <h3 className="text-3xl font-bold text-center text-navy mb-4">
-              See Virtual Staging in Action
-            </h3>
-            <p className="text-center text-gray-600 mb-8">
-              Drag the slider to see how we transform empty spaces into inviting, buyer-ready rooms
-            </p>
+          
+          {/* Right Column: Image (50%) + About Content (50%) */}
+          <div className="flex flex-col gap-6 h-full">
+            {/* Top: Profile Image */}
+            <motion.div 
+              className="hero-image flex-1 min-h-[400px]"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <img 
+                src="/images/marisol-profile.jpg" 
+                alt="Marisol Gallegos - Real Estate Agent"
+                className="w-full h-full object-cover rounded-3xl grayscale hover:grayscale-0 transition-all duration-500"
+                style={{ objectPosition: 'center 20%' }}
+                onClick={() => setShowPhotoModal(true)}
+              />
+              {/* Decorative elements */}
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-black text-white rounded-full flex items-center justify-center font-black text-xl z-20 shadow-pink-xl hidden lg:flex glass-strong">
+                TOP 1%
+              </div>
+            </motion.div>
             
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-              <VirtualStagingSlider />
-            </div>
-            
-            <p className="text-center text-gray-600 mt-6 text-sm">
-              <strong>Note:</strong> These are examples of our virtual staging work. We can create multiple design styles to match your target buyer's preferences.
-            </p>
-          </motion.div>
-
-          {/* MLS vs Off-Market Listing Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-5xl mx-auto mt-16"
-          >
-            <h3 className="text-3xl font-bold text-center text-navy mb-8">
-              MLS Listing vs. Off-Market: Which is Right for You?
-            </h3>
-
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 mb-8">
-              <h4 className="text-2xl font-bold text-navy mb-4">Listing on the MLS: Maximum Exposure</h4>
-              <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                When you list your property on the <span className="tooltip-trigger" data-tooltip="Multiple Listing Service (MLS): A database used by real estate agents to share information about properties for sale. When your home is listed on the MLS, it becomes visible to all agents and appears on major real estate websites.">MLS</span> through me as your realtor, your home gets <strong>maximum exposure</strong> to potential buyers. Here's how it works:
+            {/* Bottom: About Content with Glassmorphism */}
+            <motion.div 
+              className="glass-card rounded-3xl p-6 md:p-8 flex-1"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <h2 className="text-2xl md:text-3xl font-black mb-4 tracking-tight text-black">
+                About Marisol
+              </h2>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-6">
+                Hi, I'm Marisol Gallegos! I'm a New Construction Expert and Top Realtor serving Dallas, Frisco, and the surrounding DFW area. With a passion for helping families find their dream homes and get top dollar for their sales, I bring a fresh, dynamic approach to real estate.
               </p>
               
-              <div className="bg-white rounded-lg p-6 mb-6">
-                <h5 className="text-xl font-bold text-navy mb-4">How MLS Distribution Works</h5>
-                <p className="text-gray-700 mb-4">
-                  Once your home is listed on the MLS, it automatically appears on all major real estate websites that pull listing data from the MLS, including:
-                </p>
-                <ul className="grid md:grid-cols-2 gap-3 text-gray-700 mb-4">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Zillow</strong> - The most visited real estate website</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Realtor.com</strong> - Official NAR website</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Trulia</strong> - Popular search platform</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Redfin</strong> - Tech-enabled brokerage</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Homes.com</strong> - Comprehensive listings</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Homesnap</strong> - Mobile-first platform</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Movoto</strong> - Real estate search</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="text-primary flex-shrink-0" size={20} />
-                    <span><strong>Homes & Land</strong> - Property listings</span>
-                  </li>
-                </ul>
-                <p className="text-gray-700">
-                  Plus, your listing is visible to <strong>thousands of real estate agents</strong> in the DFW area who actively search the MLS for properties matching their clients' criteria. This means your home reaches buyers who are actively looking and ready to purchase. <strong>Ask me more about our comprehensive marketing strategy and how we maximize your home's exposure.</strong>
-                </p>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              {/* MLS Pros */}
-              <div className="bg-green-50 rounded-xl p-6 border-2 border-green-200">
-                <h5 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
-                  <CheckCircle className="text-green-600" size={24} />
-                  Benefits of MLS Listing
-                </h5>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Maximum Exposure:</strong> Your home appears on all major real estate websites automatically</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Access to All Buyers:</strong> Thousands of agents can see and show your property</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Competitive Bidding:</strong> More exposure often leads to multiple offers and higher sale prices</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Faster Sales:</strong> More visibility typically means quicker sales</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Market Data:</strong> Your listing contributes to and benefits from comprehensive market data</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Professional Network:</strong> Access to the entire real estate agent network in DFW</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Off-Market Info */}
-              <div className="bg-blue-50 rounded-xl p-6 border-2 border-blue-200">
-                <h5 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
-                  <span className="text-blue-600">ℹ</span>
-                  Off-Market Listing Option
-                </h5>
-                <p className="text-gray-700 mb-4">
-                  An off-market listing (also called a "pocket listing" or "quiet listing") means your home is not listed on the MLS and is marketed privately through our network.
-                </p>
-                <div className="space-y-4">
-                  <div>
-                    <h6 className="font-bold text-navy mb-2">Pros of Off-Market:</h6>
-                    <ul className="space-y-1 text-gray-700 text-sm">
-                      <li>• Privacy - fewer public showings</li>
-                      <li>• Less disruption if you're still living in the home</li>
-                      <li>• Can test the market before going public</li>
-                      <li>• Exclusivity appeal for high-end properties</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h6 className="font-bold text-navy mb-2">Cons of Off-Market:</h6>
-                    <ul className="space-y-1 text-gray-700 text-sm">
-                      <li>• Limited exposure - only our network sees it</li>
-                      <li>• Longer time on market typically</li>
-                      <li>• May receive lower offers due to less competition</li>
-                      <li>• Miss out on buyers actively searching online</li>
-                    </ul>
-                  </div>
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">10+</div>
+                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Years Experience</div>
+                </div>
+                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">$50M+</div>
+                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Volume Sold</div>
+                </div>
+                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">500+</div>
+                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Happy Families</div>
+                </div>
+                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">Top 1%</div>
+                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Realtor in DFW</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-            <div className="bg-white border-2 border-primary/30 rounded-xl p-8">
-              <h5 className="text-xl font-bold text-navy mb-4">Factors to Consider When Deciding</h5>
-              <p className="text-gray-700 mb-4">
-                Every seller has different goals and circumstances. Here are key factors to discuss when deciding between MLS and off-market listing:
-              </p>
-              <div className="grid md:grid-cols-2 gap-4">
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Timeline:</strong> How quickly do you need to sell?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Living Situation:</strong> Are you still living in the home?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Privacy Needs:</strong> Do you need maximum privacy?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Property Type:</strong> Is it a unique or high-end property?</span>
-                  </li>
-                </ul>
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Market Conditions:</strong> Is it a hot market or slower market?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Price Goals:</strong> Are you prioritizing speed or maximum price?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Flexibility:</strong> Can you accommodate showings easily?</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span><strong>Network Access:</strong> Do you have a specific buyer in mind?</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-6 bg-primary/10 rounded-lg p-6 border-2 border-primary/20">
-                <p className="text-gray-700 leading-relaxed">
-                  <strong>Our Recommendation:</strong> For most sellers, listing on the MLS provides the best opportunity to maximize your sale price and sell quickly. The automatic distribution to all major real estate websites means your home reaches the largest pool of qualified buyers. However, we understand every situation is unique. <strong>During our consultation, we'll discuss your specific goals and circumstances to determine the best marketing strategy for your home.</strong>
-                </p>
-              </div>
-            </div>
+      {/* EXPERIENCE SECTION - Enhanced with Scroll Animations */}
+      <section className="py-24 bg-white">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <h2 className="section-title mb-16">Experience</h2>
+          </motion.div>
+          <div className="flex flex-col divide-y divide-gray-200 border-t border-b border-gray-200">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="flex flex-col md:flex-row justify-between items-start md:items-center py-10 group hover:bg-gray-50 transition-all duration-300 px-4 rounded-lg hover:shadow-pink-sm"
+            >
+              <h3 className="text-3xl font-bold group-hover:translate-x-2 transition-transform duration-300">Realtor & Team Lead</h3>
+              <div className="text-xl text-gray-500 mt-2 md:mt-0 font-mono">KS Team / eXp Realty • 2014 - Present</div>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
+              className="flex flex-col md:flex-row justify-between items-start md:items-center py-10 group hover:bg-gray-50 transition-all duration-300 px-4 rounded-lg hover:shadow-pink-sm"
+            >
+              <h3 className="text-3xl font-bold group-hover:translate-x-2 transition-transform duration-300">Real Estate Specialist</h3>
+              <div className="text-xl text-gray-500 mt-2 md:mt-0 font-mono">DFW Area • 2010 - 2014</div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* INFINITE MARQUEE */}
+      <div className="marquee-container bg-black text-white py-6 border-y-0">
+        <div className="marquee-content text-2xl md:text-4xl font-bold uppercase tracking-widest flex gap-8">
+          <span>• Get Your Free Consultation</span>
+          <span>• Top 1% Realtor</span>
+          <span>• Maximize Your Home Value</span>
+          <span>• Expert Negotiation</span>
+          <span>• Get Your Free Consultation</span>
+          <span>• Top 1% Realtor</span>
+          <span>• Maximize Your Home Value</span>
+          <span>• Expert Negotiation</span>
+        </div>
+      </div>
+
+      {/* SERVICES BENTO GRID */}
+      <section id="services" className="py-24 bg-gray-50">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+            className="mb-16 text-center"
+          >
+            <h2 className="section-title">Comprehensive Services</h2>
+            <p className="section-subtitle">
+              A strategic, data-driven approach to selling your home for top dollar
+            </p>
           </motion.div>
 
-          {/* Marketing CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-12 text-center"
-          >
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 border-2 border-primary/20 max-w-3xl mx-auto">
-              <p className="text-lg text-gray-700 mb-6">
-                Want to see how we'll market your home? As your realtor, let's discuss our proven marketing plan and how it will help you sell for top dollar.
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Card 001: Strategic Consultation */}
+            <motion.div 
+              className="card-bento p-8 group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono font-bold text-gray-400">(001)</span>
+                <ArrowUpRight className="w-6 h-6 text-gray-300 group-hover:text-primary transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Strategic Consultation</h3>
+              <p className="text-gray-600 mb-6">
+                We start by reviewing your goals, timeline, and conducting a comprehensive market analysis.
               </p>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="cta-button primary"
-              >
-                Schedule My Free Seller Consultation
-              </button>
-            </div>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li className="flex items-center gap-2">• Goals & Timeline Review</li>
+                <li className="flex items-center gap-2">• Comprehensive Market Analysis</li>
+                <li className="flex items-center gap-2">• Net Proceeds Calculation</li>
+              </ul>
+            </motion.div>
+
+            {/* Card 002: Property Prep */}
+            <motion.div 
+              className="card-bento p-8 group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono font-bold text-gray-400">(002)</span>
+                <ArrowUpRight className="w-6 h-6 text-gray-300 group-hover:text-primary transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Property Prep & Staging</h3>
+              <p className="text-gray-600 mb-6">
+                Decluttering, repairs, and leveraging our "Virtual Staging Advantage" to transform your home.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li className="flex items-center gap-2">• Walkthrough & Repair List</li>
+                <li className="flex items-center gap-2">• Virtual Staging Included</li>
+                <li className="flex items-center gap-2">• Curb Appeal Enhancement</li>
+              </ul>
+            </motion.div>
+
+            {/* Card 003: Pricing Strategy */}
+            <motion.div 
+              className="card-bento p-8 group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono font-bold text-gray-400">(003)</span>
+                <ArrowUpRight className="w-6 h-6 text-gray-300 group-hover:text-primary transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Pricing Strategy</h3>
+              <p className="text-gray-600 mb-6">
+                Positioning your home to attract the maximum pool of buyers using data-driven insights.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li className="flex items-center gap-2">• Data-Driven Pricing</li>
+                <li className="flex items-center gap-2">• Market Trend Analysis</li>
+                <li className="flex items-center gap-2">• Competitive Positioning</li>
+              </ul>
+            </motion.div>
+
+            {/* Card 004: Elite Marketing */}
+            <motion.div 
+              className="card-bento p-8 group md:col-span-2"
+              whileHover={{ y: -8, scale: 1.02 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono font-bold text-gray-400">(004)</span>
+                <ArrowUpRight className="w-6 h-6 text-gray-300 group-hover:text-primary transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Elite Marketing Suite</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div>
+                   <Camera className="w-8 h-8 mb-3 text-primary" />
+                   <h4 className="font-bold mb-2">Pro Photography</h4>
+                   <p className="text-sm text-gray-500">HDR editorial-grade photos that make your home stand out.</p>
+                </div>
+                <div>
+                   <Layout className="w-8 h-8 mb-3 text-primary" />
+                   <h4 className="font-bold mb-2">Floor Plans</h4>
+                   <p className="text-sm text-gray-500">Helping buyers visualize the flow and layout.</p>
+                </div>
+                <div>
+                   <Calendar className="w-8 h-8 mb-3 text-primary" />
+                   <h4 className="font-bold mb-2">Open Houses</h4>
+                   <p className="text-sm text-gray-500">Strategic events to convert lookers into offers.</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Card 005: Launch & Closing */}
+            <motion.div 
+              className="card-bento p-8 group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono font-bold text-gray-400">(005)</span>
+                <ArrowUpRight className="w-6 h-6 text-gray-300 group-hover:text-primary transition-colors" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Launch to Closing</h3>
+              <p className="text-gray-600 mb-6">
+                From "Coming Soon" buzz to final negotiations and closing day.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li className="flex items-center gap-2">• Pre-Market Buzz</li>
+                <li className="flex items-center gap-2">• Expert Negotiation</li>
+                <li className="flex items-center gap-2">• Smooth Closing</li>
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* VIRTUAL STAGING FEATURE - Enhanced with Glassmorphism */}
+          <motion.div 
+            className="mt-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <h3 className="text-3xl md:text-4xl font-black text-center mb-12">Virtual Staging Mastery</h3>
+            
+            <motion.div 
+              className="card-bento p-2 md:p-4 bg-white rounded-3xl shadow-pink-lg"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            >
+               <VirtualStagingSlider />
+            </motion.div>
+            
+            <motion.div 
+              className="grid md:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            >
+                <motion.div 
+                  className="p-8 border border-gray-200 rounded-xl glass-card hover:shadow-pink-md transition-all duration-300"
+                  whileHover={{ scale: 1.02, y: -5 }}
+                >
+                  <h4 className="text-xl font-bold mb-4">Traditional Staging</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-3 text-gray-500"><X size={18} /> High Cost ($$$)</li>
+                    <li className="flex items-center gap-3 text-gray-500"><X size={18} /> Intrusive & Slow</li>
+                    <li className="flex items-center gap-3 text-gray-500"><X size={18} /> One Style Only</li>
+                  </ul>
+                </motion.div>
+                <motion.div 
+                  className="p-8 bg-primary text-white rounded-xl shadow-pink-lg hover:shadow-pink-xl transition-all duration-300"
+                  whileHover={{ scale: 1.02, y: -5 }}
+                >
+                  <h4 className="text-xl font-bold mb-4">Our Virtual Method</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-3"><CheckCircle size={18} /> Included (Free)</li>
+                    <li className="flex items-center gap-3"><CheckCircle size={18} /> Fast & Efficient</li>
+                    <li className="flex items-center gap-3"><CheckCircle size={18} /> Unlimited Styles</li>
+                  </ul>
+                </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* SMART-SELL REVERSE TIMELINE SECTION */}
-      <section id="smart-sell-timeline" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section id="smart-sell-timeline" className="py-20 bg-white">
         <div className="container">
           <SmartSellTimeline />
         </div>
@@ -1350,20 +1106,20 @@ function App() {
       <section id="financials" className="py-20 bg-white">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
           >
             <h2 className="section-title">Strategic Financials</h2>
           </motion.div>
 
           <motion.div
             className="max-w-4xl mx-auto space-y-8"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
           >
             {/* Buyer's Agent Compensation Section */}
             <div className="bg-gradient-to-br from-navy/5 to-navy/10 rounded-xl p-8 border-2 border-navy/20">
@@ -1606,10 +1362,10 @@ function App() {
       <section id="contact" className="py-20 bg-gradient-to-br from-navy to-navy-dark text-white">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Ready to Find Out Your Home's Value?</h2>
@@ -1624,13 +1380,13 @@ function App() {
 
           {/* What's Included Section */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
             className="max-w-4xl mx-auto mb-12"
           >
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8">
+            <div className="glass-card rounded-xl p-8 shadow-pink-md">
               <h3 className="text-2xl font-bold mb-6 text-center">What's Included in Your Free Seller Consultation:</h3>
               <div className="grid md:grid-cols-2 gap-4 text-left">
                 <div className="flex items-start gap-3">
@@ -1667,13 +1423,13 @@ function App() {
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
             className="max-w-2xl mx-auto"
           >
-            <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 md:p-12">
+            <div className="bg-white rounded-xl shadow-pink-2xl p-6 sm:p-8 md:p-12 glass-strong">
               <form
                 name="seller-contact"
                 method="POST"
@@ -1893,10 +1649,10 @@ function App() {
       <section id="relationship" className="py-20 bg-white">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
           >
             <h2 className="section-title">Our Relationship Doesn't End at Closing</h2>
             <p className="section-subtitle">
@@ -1911,7 +1667,11 @@ function App() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
+              <motion.div 
+                variants={fadeInUp}
+                className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-8 text-center hover:shadow-pink-lg transition-all duration-300 hover:-translate-y-2 border border-primary/20"
+                whileHover={{ scale: 1.03 }}
+              >
               <div className="flex justify-center mb-4" aria-hidden="true">
                 <Wrench size={48} className="text-primary" />
               </div>
@@ -1920,9 +1680,13 @@ function App() {
                 Need a great plumber, painter, or contractor? Our trusted vendor list is now your list. 
                 We've vetted the best service providers in the DFW area.
               </p>
-            </div>
+            </motion.div>
 
-            <motion.div variants={fadeInUp} className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 sm:p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 sm:p-8 text-center hover:shadow-pink-lg transition-all duration-300 hover:-translate-y-2 border border-primary/20"
+              whileHover={{ scale: 1.03 }}
+            >
               <div className="flex justify-center mb-4" aria-hidden="true">
                 <PartyPopper size={48} className="text-primary" />
               </div>
@@ -1933,7 +1697,11 @@ function App() {
               </p>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 sm:p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-primary/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 sm:p-8 text-center hover:shadow-pink-lg transition-all duration-300 hover:-translate-y-2 border border-primary/20"
+              whileHover={{ scale: 1.03 }}
+            >
               <div className="flex justify-center mb-4" aria-hidden="true">
                 <Heart size={48} className="text-primary" />
               </div>
@@ -1951,10 +1719,10 @@ function App() {
       <section id="faq" className="py-20 bg-gray-50">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
           >
             <h2 className="section-title">Frequently Asked Questions</h2>
             <p className="section-subtitle">
@@ -2007,7 +1775,7 @@ function App() {
             ].map((faq, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 border border-gray-100 focus-within:ring-2 focus-within:ring-primary/50"
+                className="bg-white rounded-lg p-6 cursor-pointer hover:shadow-pink-md transition-all duration-300 hover:-translate-y-1 border border-gray-100 focus-within:ring-2 focus-within:ring-primary/50"
                 onClick={() => toggleFAQ(index + 1)}
                 role="button"
                 tabIndex={0}
@@ -2019,10 +1787,11 @@ function App() {
                 }}
                 aria-expanded={activeFAQ === index + 1}
                 aria-controls={`faq-answer-${index + 1}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.08, ease: [0.4, 0, 0.2, 1] }}
+                whileHover={{ scale: 1.02 }}
               >
                 <div className="flex items-center justify-between">
                   <h5 className="font-bold text-navy text-lg pr-8">{faq.q}</h5>
@@ -2099,10 +1868,10 @@ function App() {
       <section id="trust" className="py-20 bg-navy text-white">
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
           >
             <h2 className="section-title text-white">Why Work With Me?</h2>
             <p className="section-subtitle text-gray-300 mb-12">
@@ -2117,19 +1886,35 @@ function App() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="glass-card rounded-xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/20"
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2">TOP 10</div>
               <div className="text-xs sm:text-sm text-gray-300 font-semibold">Realtor on Social Media</div>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="glass-card rounded-xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/20"
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-2">EXPERT</div>
               <div className="text-xs sm:text-sm text-gray-300 font-semibold">New Construction</div>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="glass-card rounded-xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/20"
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">DALLAS</div>
               <div className="text-xs sm:text-sm text-gray-300 font-semibold">Local Market Expert</div>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-6 text-center hover:bg-white/15 transition-all duration-300 border border-white/20">
+            <motion.div 
+              variants={fadeInUp} 
+              className="glass-card rounded-xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 border border-white/20"
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
               <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">RESULTS</div>
               <div className="text-xs sm:text-sm text-gray-300 font-semibold">Driven Approach</div>
             </motion.div>
@@ -2184,8 +1969,9 @@ function App() {
         </motion.div>
       )}
 
+      </div>
       {/* FOOTER */}
-      <footer className="bg-navy-dark text-white py-12">
+      <footer className="bg-navy-dark text-white py-12 lg:ml-20">
         <div className="container">
           <div className="text-center space-y-4">
             <p className="text-xl font-bold">Marisol Gallegos | Realtor®</p>

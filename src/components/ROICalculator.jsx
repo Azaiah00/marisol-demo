@@ -380,7 +380,7 @@ const ROICalculator = () => {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-gray-100">
+          <div className="card-bento p-6 sm:p-8 md:p-10">
             <div className="grid md:grid-cols-2 gap-6 md:gap-8">
               {/* Inputs */}
               <div className="space-y-6">
