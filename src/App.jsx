@@ -754,42 +754,42 @@ function App() {
       {/* MAIN CONTENT - Offset for Sidebar */}
       <div className="lg:ml-20">
       {/* HERO SECTION - Restructured with About Content */}
-      <section className="hero pt-24" id="home">
+      <section className="hero pt-20 sm:pt-24" id="home">
         <div className="hero-content items-start">
           {/* Left Column: Hero Text and Buttons */}
           <motion.div 
-            className="hero-text flex flex-col"
+            className="hero-text flex flex-col w-full lg:w-auto"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
           >
-            <div className="inline-block px-4 py-1 mb-4 border border-black rounded-full text-xs font-bold tracking-wider uppercase glass shadow-pink-sm w-fit">
+            <div className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 mb-3 sm:mb-4 border border-black rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase glass shadow-pink-sm w-fit">
               Top 10 Realtor on Social Media
             </div>
-            <h1 className="hero-title mb-4">
+            <h1 className="hero-title mb-3 sm:mb-4">
               Sell Your Home<br />
               <span className="text-gray-400">with Confidence</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-6 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-4 sm:mb-6 max-w-xl leading-relaxed">
               Buying | Selling | New Construction Expert<br/>
               Serving Dallas, Frisco & DFW Metroplex
             </p>
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a 
                 href="#contact" 
-                className="btn-pill btn-primary group"
+                className="btn-pill btn-primary group text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 min-h-[44px] sm:min-h-[48px]"
               >
                 Book Consultation
-                <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-45 transition-transform" />
               </a>
             </div>
           </motion.div>
           
           {/* Right Column: Image (50%) + About Content (50%) */}
-          <div className="flex flex-col gap-6 h-full">
+          <div className="flex flex-col gap-4 sm:gap-6 h-full w-full lg:w-auto mt-8 lg:mt-0">
             {/* Top: Profile Image */}
             <motion.div 
-              className="hero-image flex-1 min-h-[400px]"
+              className="hero-image flex-1 min-h-[300px] sm:min-h-[350px] md:min-h-[400px] w-full"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
@@ -809,35 +809,35 @@ function App() {
             
             {/* Bottom: About Content with Glassmorphism */}
             <motion.div 
-              className="glass-card rounded-3xl p-6 md:p-8 flex-1"
+              className="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 flex-1 w-full"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
             >
-              <h2 className="text-2xl md:text-3xl font-black mb-4 tracking-tight text-black">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black mb-3 sm:mb-4 tracking-tight text-black">
                 About Marisol
               </h2>
-              <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm md:text-base text-gray-700 leading-relaxed mb-4 sm:mb-6">
                 Hi, I'm Marisol Gallegos! I'm a New Construction Expert and Top Realtor serving Dallas, Frisco, and the surrounding DFW area. With a passion for helping families find their dream homes and get top dollar for their sales, I bring a fresh, dynamic approach to real estate.
               </p>
               
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
-                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">10+</div>
-                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Years Experience</div>
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                <div className="p-3 sm:p-4 border border-white/30 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 text-black">10+</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600 uppercase tracking-wider font-bold">Years Experience</div>
                 </div>
-                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
-                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">$50M+</div>
-                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Volume Sold</div>
+                <div className="p-3 sm:p-4 border border-white/30 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 text-black">$50M+</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600 uppercase tracking-wider font-bold">Volume Sold</div>
                 </div>
-                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
-                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">500+</div>
-                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Happy Families</div>
+                <div className="p-3 sm:p-4 border border-white/30 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 text-black">500+</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600 uppercase tracking-wider font-bold">Happy Families</div>
                 </div>
-                <div className="p-4 border border-white/30 rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
-                  <div className="text-3xl md:text-4xl font-black mb-1 text-black">Top 1%</div>
-                  <div className="text-xs text-gray-600 uppercase tracking-wider font-bold">Realtor in DFW</div>
+                <div className="p-3 sm:p-4 border border-white/30 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 shadow-pink-sm hover:shadow-pink-md">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 text-black">Top 1%</div>
+                  <div className="text-[10px] sm:text-xs text-gray-600 uppercase tracking-wider font-bold">Realtor in DFW</div>
                 </div>
               </div>
             </motion.div>
@@ -1429,13 +1429,13 @@ function App() {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.4, 0, 0.2, 1] }}
             className="max-w-2xl mx-auto"
           >
-            <div className="bg-white rounded-xl shadow-pink-2xl p-6 sm:p-8 md:p-12 glass-strong">
+            <div className="bg-white rounded-xl shadow-pink-2xl p-4 sm:p-6 md:p-8 lg:p-12 glass-strong">
               <form
                 name="seller-contact"
                 method="POST"
                 data-netlify="true"
                 netlify-honeypot="bot-field"
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
                 onSubmit={handleSubmit}
               >
                 <input type="hidden" name="form-name" value="seller-contact" />
@@ -1445,7 +1445,7 @@ function App() {
                   </label>
                 </p>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold text-navy mb-2">
                       Your Name *
@@ -1457,7 +1457,7 @@ function App() {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base min-h-[48px] ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base sm:text-base min-h-[44px] sm:min-h-[48px] ${
                         formErrors.name ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="John Smith"
@@ -1477,7 +1477,7 @@ function App() {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base min-h-[48px] ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base sm:text-base min-h-[44px] sm:min-h-[48px] ${
                         formErrors.email ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="john@example.com"
@@ -1487,7 +1487,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-semibold text-navy mb-2">
                       Your Phone *
@@ -1499,7 +1499,7 @@ function App() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base min-h-[48px] ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base sm:text-base min-h-[44px] sm:min-h-[48px] ${
                         formErrors.phone ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="(703) 555-1234"
@@ -1518,7 +1518,7 @@ function App() {
                       value={formData.timeline}
                       onChange={handleInputChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base min-h-[48px] ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base sm:text-base min-h-[44px] sm:min-h-[48px] ${
                         formErrors.timeline ? 'border-red-500' : 'border-gray-300'
                       }`}
                       style={{ fontSize: '16px' }}
@@ -1544,7 +1544,7 @@ function App() {
                       name="propertyAddress"
                       value={formData.propertyAddress}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base min-h-[48px] ${
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-navy text-base sm:text-base min-h-[44px] sm:min-h-[48px] ${
                         formErrors.propertyAddress ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="123 Main St, City, State"
@@ -1556,7 +1556,7 @@ function App() {
 
                 <button
                   type="submit"
-                  className={`w-full cta-button primary text-lg py-4 min-h-[48px] focus:outline-none focus:ring-4 focus:ring-primary/50 focus:ring-offset-2 ${
+                  className={`w-full cta-button primary text-base sm:text-lg py-3 sm:py-4 min-h-[44px] sm:min-h-[48px] focus:outline-none focus:ring-4 focus:ring-primary/50 focus:ring-offset-2 ${
                     formSubmitted ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   disabled={formSubmitted}

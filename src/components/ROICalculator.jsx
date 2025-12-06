@@ -179,8 +179,9 @@ const ROICalculator = () => {
       if (netGain >= 0) {
         breakEvenAnalysis = `This improvement pays for itself and adds ${formatCurrencyLocal(Math.abs(netGain))} in value.`
       } else {
-        const lossPercent = (Math.abs(netGain) / improvementCost) * 100
-        breakEvenAnalysis = `You'll recoup ${(100 - lossPercent).toFixed(0)}% of your investment, with a net cost of ${formatCurrencyLocal(Math.abs(netGain))}.`
+        // Simplify: recoup percentage equals ROI percentage
+        const recoupPercent = roiPercent.toFixed(0)
+        breakEvenAnalysis = `You'll recoup ${recoupPercent}% of your investment (${formatCurrencyLocal(valueIncrease)}), with a net cost of ${formatCurrencyLocal(Math.abs(netGain))}.`
       }
     }
 

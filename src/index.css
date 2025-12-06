@@ -10,11 +10,13 @@
 
   html {
     @apply scroll-smooth text-gray-900 bg-white;
+    @apply overflow-x-hidden;
   }
 
   body {
     @apply font-sans antialiased text-gray-900 bg-white;
     @apply leading-relaxed;
+    @apply overflow-x-hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -53,11 +55,13 @@
     @apply opacity-100 translate-x-1 -translate-y-1;
   }
 
-  /* Buttons - Enhanced with Pink Shadows */
+  /* Buttons - Enhanced with Pink Shadows - Mobile Responsive */
   .btn-pill {
-    @apply px-8 py-4 rounded-full font-bold transition-all duration-300;
+    @apply px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold transition-all duration-300;
     @apply flex items-center justify-center gap-2;
-    @apply text-sm uppercase tracking-wider;
+    @apply text-xs sm:text-sm uppercase tracking-wider;
+    @apply min-h-[44px] sm:min-h-[48px];
+    @apply touch-manipulation;
   }
 
   .btn-primary {
@@ -72,14 +76,15 @@
     @apply shadow-pink-sm hover:shadow-pink-md;
   }
   
-  /* Section Styles */
+  /* Section Styles - Mobile Responsive */
   .section-title {
-    @apply font-display font-black text-5xl md:text-7xl lg:text-8xl;
-    @apply text-black mb-8 tracking-tighter leading-[0.9];
+    @apply font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl;
+    @apply text-black mb-4 sm:mb-6 md:mb-8 tracking-tighter leading-[0.9];
   }
 
   .section-subtitle {
-    @apply text-xl text-gray-500 max-w-2xl leading-relaxed font-normal;
+    @apply text-base sm:text-lg md:text-xl text-gray-500 max-w-2xl leading-relaxed font-normal;
+    @apply px-4 sm:px-0;
   }
 
   /* Glassmorphism Utilities */
@@ -140,17 +145,21 @@
   }
   
   .nav-cta {
-    @apply px-6 py-2.5 rounded-full font-semibold;
-    @apply bg-black text-white;
+    @apply px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold;
+    @apply bg-black text-white text-sm sm:text-base;
     @apply shadow-pink-md hover:shadow-pink-lg;
     @apply transition-all duration-300;
     @apply hover:scale-105;
+    @apply min-h-[40px] sm:min-h-[44px];
+    @apply touch-manipulation;
   }
   
   .mobile-menu-toggle {
     @apply md:hidden p-2 rounded-lg;
     @apply text-black hover:bg-gray-100;
     @apply transition-all duration-300;
+    @apply min-h-[44px] min-w-[44px];
+    @apply touch-manipulation;
   }
   
   .mobile-menu-toggle.scrolled {
@@ -235,25 +244,25 @@
     @apply backdrop-blur-sm;
   }
   
-  /* Hero Section Styles */
+  /* Hero Section Styles - Mobile Responsive */
   .hero {
     @apply flex items-start;
-    @apply pt-24 pb-20 md:pb-32;
+    @apply pt-20 sm:pt-24 pb-12 sm:pb-16 md:pb-20 lg:pb-32;
     @apply bg-gradient-to-br from-white via-gray-50 to-white;
   }
   
   .hero-content {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
-    @apply grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16;
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16;
     @apply items-start;
   }
   
   .hero-text {
-    @apply space-y-6;
+    @apply space-y-4 sm:space-y-6;
   }
   
   .hero-title {
-    @apply text-5xl md:text-6xl lg:text-7xl font-black;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black;
     @apply tracking-tight leading-tight;
     @apply text-black;
   }

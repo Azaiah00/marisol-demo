@@ -143,9 +143,34 @@ const SmartSellTimeline = () => {
     }
 
     // Calculate each step's date
+    // Pre-Listing Consultation & Strategy always starts TODAY
+    // All other steps are calculated forward from today based on their relative position
+    const preListingDaysBefore = 84 // Pre-Listing is 84 days before closing
+    
     const timeline = timelineSteps.map(step => {
-      const stepDate = new Date(closingDate)
-      stepDate.setDate(stepDate.getDate() - step.daysBefore)
+      // Pre-Listing Consultation & Strategy should always be "Start Today"
+      if (step.name === 'Pre-Listing Consultation & Strategy') {
+        return {
+          ...step,
+          date: today,
+          daysFromToday: 0,
+          isToday: true,
+          isThisWeek: true,
+          formattedDate: today.toLocaleDateString('en-US', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+          })
+        }
+      }
+      
+      // Calculate steps forward from today
+      // If Pre-Listing is day 0 (today) and it's normally 84 days before closing,
+      // then a step that's X days before closing should be (84 - X) days after today
+      const daysAfterPreListing = preListingDaysBefore - step.daysBefore
+      const stepDate = new Date(today)
+      stepDate.setDate(stepDate.getDate() + daysAfterPreListing)
       
       const daysFromToday = Math.ceil((stepDate - today) / (1000 * 60 * 60 * 24))
       const isToday = daysFromToday === 0
@@ -396,7 +421,9 @@ const SmartSellTimeline = () => {
                   : 'bg-gray-50 border-gray-200'
 
                 // Format days display
-                const daysDisplay = step.daysFromToday < 0 
+                const daysDisplay = step.name === 'Pre-Listing Consultation & Strategy'
+                  ? 'Start Today'
+                  : step.daysFromToday < 0 
                   ? `${Math.abs(step.daysFromToday)} days ago`
                   : step.isToday 
                   ? 'Today'
