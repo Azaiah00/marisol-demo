@@ -1084,7 +1084,7 @@ function App() {
                   className="p-8 bg-primary text-white rounded-xl shadow-pink-lg hover:shadow-pink-xl transition-all duration-300"
                   whileHover={{ scale: 1.02, y: -5 }}
                 >
-                  <h4 className="text-xl font-bold mb-4">Our Virtual Method</h4>
+                  <h4 className="text-xl font-bold mb-4 text-white">Our Virtual Method</h4>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-3"><CheckCircle size={18} /> Included (Free)</li>
                     <li className="flex items-center gap-3"><CheckCircle size={18} /> Fast & Efficient</li>
