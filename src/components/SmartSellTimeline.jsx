@@ -187,13 +187,13 @@ const SmartSellTimeline = () => {
       }
     })
     
-    // Sort timeline by date (earliest to latest) to ensure proper order
-    // If dates are equal, maintain original order based on daysBefore (earlier steps first)
+    // Sort timeline in REVERSE order (latest to earliest) - closing date first, then backwards to today
+    // If dates are equal, maintain original order based on daysBefore
     timeline.sort((a, b) => {
-      const dateDiff = a.date - b.date
+      const dateDiff = b.date - a.date // Reverse: latest date first
       if (dateDiff !== 0) return dateDiff
-      // If same date, sort by daysBefore (larger daysBefore = earlier in process = should come first)
-      return b.daysBefore - a.daysBefore
+      // If same date, sort by daysBefore (smaller daysBefore = closer to closing = should come first in reverse)
+      return a.daysBefore - b.daysBefore
     })
 
     setCalculatedTimeline(timeline)
