@@ -143,45 +143,36 @@ const SmartSellTimeline = () => {
     }
 
     // Calculate each step's date
-    // Pre-Listing Consultation & Strategy always starts TODAY
-    // All other steps are calculated forward from today based on their relative position
-    const preListingDaysBefore = 84 // Pre-Listing is 84 days before closing
-    
+    // Closing date should be exactly the selected date
+    // All other steps are calculated backwards from the closing date
     const timeline = timelineSteps.map(step => {
-      // Pre-Listing Consultation & Strategy should always be "Start Today"
-      if (step.name === 'Pre-Listing Consultation & Strategy') {
-        return {
-          ...step,
-          date: today,
-          daysFromToday: 0,
-          isToday: true,
-          isThisWeek: true,
-          formattedDate: today.toLocaleDateString('en-US', { 
-            weekday: 'short', 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-          })
-        }
+      let stepDate
+      
+      // Closing & Move-Out should be exactly on the selected closing date
+      if (step.daysBefore === 0) {
+        stepDate = new Date(closingDate)
+      } else {
+        // Calculate steps backwards from closing date
+        // A step that's X days before closing should be (closingDate - X days)
+        stepDate = new Date(closingDate)
+        stepDate.setDate(stepDate.getDate() - step.daysBefore)
       }
       
-      // Calculate steps forward from today
-      // If Pre-Listing is day 0 (today) and it's normally 84 days before closing,
-      // then a step that's X days before closing should be (84 - X) days after today
-      const daysAfterPreListing = preListingDaysBefore - step.daysBefore
-      const stepDate = new Date(today)
-      stepDate.setDate(stepDate.getDate() + daysAfterPreListing)
-      
+      // Calculate days from today for display purposes
       const daysFromToday = Math.ceil((stepDate - today) / (1000 * 60 * 60 * 24))
       const isToday = daysFromToday === 0
       const isThisWeek = daysFromToday >= 0 && daysFromToday <= 7
+      
+      // Special handling for Pre-Listing Consultation & Strategy
+      // If it's in the past, show it as "Start Today" but keep the calculated date
+      const isPreListing = step.name === 'Pre-Listing Consultation & Strategy'
       
       return {
         ...step,
         date: stepDate,
         daysFromToday,
-        isToday,
-        isThisWeek,
+        isToday: isPreListing && daysFromToday <= 0 ? true : isToday,
+        isThisWeek: isPreListing && daysFromToday <= 7 ? true : isThisWeek,
         formattedDate: stepDate.toLocaleDateString('en-US', { 
           weekday: 'short', 
           year: 'numeric', 
