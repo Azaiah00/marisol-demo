@@ -142,20 +142,29 @@ const SmartSellTimeline = () => {
       setError('')
     }
 
-    // Calculate each step's date
-    // Closing date should be exactly the selected date
-    // All other steps are calculated backwards from the closing date
-    const timeline = timelineSteps.map(step => {
+    // Calculate scale factor to fit timeline between today and closing date
+    // Standard timeline spans 84 days (from Pre-Listing at day 84 to Closing at day 0)
+    const standardTimelineDays = 84
+    const scaleFactor = daysUntilClosing / standardTimelineDays
+    
+    // Calculate each step's date with auto-adjustment
+    // All steps are calculated proportionally to fit between today and closing date
+    let timeline = timelineSteps.map(step => {
       let stepDate
       
       // Closing & Move-Out should be exactly on the selected closing date
       if (step.daysBefore === 0) {
         stepDate = new Date(closingDate)
       } else {
-        // Calculate steps backwards from closing date
-        // A step that's X days before closing should be (closingDate - X days)
+        // Scale the daysBefore proportionally to fit available time
+        const scaledDaysBefore = step.daysBefore * scaleFactor
         stepDate = new Date(closingDate)
-        stepDate.setDate(stepDate.getDate() - step.daysBefore)
+        stepDate.setDate(stepDate.getDate() - scaledDaysBefore)
+        
+        // Ensure no step goes before today (start date)
+        if (stepDate < today) {
+          stepDate = new Date(today)
+        }
       }
       
       // Calculate days from today for display purposes
@@ -163,16 +172,12 @@ const SmartSellTimeline = () => {
       const isToday = daysFromToday === 0
       const isThisWeek = daysFromToday >= 0 && daysFromToday <= 7
       
-      // Special handling for Pre-Listing Consultation & Strategy
-      // If it's in the past, show it as "Start Today" but keep the calculated date
-      const isPreListing = step.name === 'Pre-Listing Consultation & Strategy'
-      
       return {
         ...step,
         date: stepDate,
         daysFromToday,
-        isToday: isPreListing && daysFromToday <= 0 ? true : isToday,
-        isThisWeek: isPreListing && daysFromToday <= 7 ? true : isThisWeek,
+        isToday,
+        isThisWeek,
         formattedDate: stepDate.toLocaleDateString('en-US', { 
           weekday: 'short', 
           year: 'numeric', 
@@ -180,6 +185,15 @@ const SmartSellTimeline = () => {
           day: 'numeric' 
         })
       }
+    })
+    
+    // Sort timeline by date (earliest to latest) to ensure proper order
+    // If dates are equal, maintain original order based on daysBefore (earlier steps first)
+    timeline.sort((a, b) => {
+      const dateDiff = a.date - b.date
+      if (dateDiff !== 0) return dateDiff
+      // If same date, sort by daysBefore (larger daysBefore = earlier in process = should come first)
+      return b.daysBefore - a.daysBefore
     })
 
     setCalculatedTimeline(timeline)
