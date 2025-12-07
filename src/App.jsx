@@ -32,7 +32,6 @@ import {
   HelpCircle
 } from 'lucide-react'
 import NetSheetCalculator from './components/NetSheetCalculator'
-import ROICalculator from './components/ROICalculator'
 import Glossary from './components/Glossary'
 import SmartSellTimeline from './components/SmartSellTimeline'
 
@@ -1309,9 +1308,6 @@ function App() {
 
       {/* NET SHEET CALCULATOR */}
       <NetSheetCalculator />
-
-      {/* ROI CALCULATOR */}
-      <ROICalculator />
 
       {/* Glossary Promotion After Calculators */}
       <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
