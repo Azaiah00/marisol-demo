@@ -794,16 +794,12 @@ function App() {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
             >
               <img 
-                src="/images/marisol-profile.jpg" 
+                src="/images/marisol-profile-new.png" 
                 alt="Marisol Gallegos - Real Estate Agent"
                 className="w-full h-full object-cover rounded-3xl grayscale hover:grayscale-0 transition-all duration-500"
                 style={{ objectPosition: 'center 20%' }}
                 onClick={() => setShowPhotoModal(true)}
               />
-              {/* Decorative elements */}
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-black text-white rounded-full flex items-center justify-center font-black text-xl z-20 shadow-pink-xl hidden lg:flex glass-strong">
-                TOP 1%
-              </div>
             </motion.div>
             
             {/* Bottom: About Content with Glassmorphism */}
@@ -1948,7 +1944,7 @@ function App() {
             onClick={(e) => e.stopPropagation()}
           >
             <img 
-              src="/images/marisol-profile.jpg" 
+              src="/images/marisol-profile-new.png" 
               alt="Marisol Gallegos - Real Estate Agent"
               className="w-full h-auto rounded-lg shadow-2xl"
               loading="lazy"
