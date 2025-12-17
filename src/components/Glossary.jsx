@@ -250,7 +250,7 @@ const Glossary = ({ onBack }) => {
         },
         {
           term: 'Transfer Tax',
-          definition: 'A tax you pay when transferring ownership of your property, typically based on the sale price. Rates vary by location (DC: 1.1%, VA: varies by county, MD: 0.5%). This is a significant closing cost.'
+          definition: 'A tax you pay when transferring ownership of your property, typically based on the sale price. Texas does not have transfer taxes, so this will typically be $0 for DFW area properties. Recording fees (typically $50-150) are charged instead to record the deed transfer.'
         }
       ]
     },

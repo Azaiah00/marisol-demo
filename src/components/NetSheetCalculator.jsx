@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Download, Printer, Info } from 'lucide-react'
 import jsPDF from 'jspdf'
 
-// Title company fees (DMV average)
+// Title company fees (DFW average)
 const titleCompanyFees = {
   closingFee: 475,
   ronESigningFee: 150,
@@ -14,23 +14,30 @@ const titleCompanyFees = {
 }
 
 // Calculate transfer and recording taxes based on location
+// Note: Texas does not have transfer taxes, only recording fees that vary by county
 const calculateTransferAndRecordingTaxes = (listingPrice, location) => {
   const price = parseFloat(listingPrice.toString().replace(/,/g, '')) || 0
   let transferTax = 0
   let recordingTax = 0
 
-  if (location === 'DC') {
-    // DC: 1.1% transfer tax (seller typically pays 0.55% or negotiates split)
-    transferTax = price * 0.0055 // Seller's portion (0.55%)
-    recordingTax = 50 // Typical recording fee in DC
-  } else if (location === 'VA') {
-    // Virginia: Varies by county, average 0.1-0.5%, using 0.3% as average
-    transferTax = price * 0.003 // 0.3% average
-    recordingTax = 33 // Typical recording fee in VA
-  } else if (location === 'MD') {
-    // Maryland: 0.5% transfer tax
-    transferTax = price * 0.005 // 0.5%
-    recordingTax = 50 // Typical recording fee in MD
+  // Texas does not have transfer taxes
+  transferTax = 0
+
+  // Recording fees vary by county in Texas DFW area
+  // Typical range is $50-150 depending on county
+  if (location === 'Dallas') {
+    recordingTax = 75 // Dallas County recording fee
+  } else if (location === 'Collin') {
+    recordingTax = 85 // Collin County (Frisco, Plano, McKinney, Allen)
+  } else if (location === 'Denton') {
+    recordingTax = 80 // Denton County
+  } else if (location === 'Tarrant') {
+    recordingTax = 75 // Tarrant County (Fort Worth area)
+  } else if (location === 'Rockwall') {
+    recordingTax = 70 // Rockwall County
+  } else {
+    // Default for other DFW counties
+    recordingTax = 75 // Average DFW recording fee
   }
 
   return { transferTax: Math.round(transferTax), recordingTax }
@@ -43,7 +50,7 @@ const NetSheetCalculator = () => {
     propertyTaxes: '',
     closingDate: '',
     commissionFees: 6, // Default 6% total commission
-    propertyLocation: 'DC', // DC, VA, or MD
+    propertyLocation: 'Dallas', // DFW area counties
     transferTax: '',
     recordingTax: '',
     hoaFees: '',
@@ -116,7 +123,7 @@ const NetSheetCalculator = () => {
     const commission = (listingPrice * commissionPercent) / 100
     
     // Calculate taxes on closing costs (some jurisdictions tax certain fees)
-    // For DMV area, typically no additional taxes on closing costs, but included for completeness
+    // For Texas DFW area, typically no additional taxes on closing costs, but included for completeness
     const totalClosingCosts = transferTax + recordingTax + titleFees + hoaFees + homeWarranty + repairsConcessions + miscCosts
 
     const netAmount = listingPrice - mortgagePayoff - proratedTaxes - commission - totalClosingCosts
@@ -306,7 +313,7 @@ const NetSheetCalculator = () => {
         >
           <h2 className="section-title">Free Seller Net Sheet Calculator</h2>
           <p className="section-subtitle">
-            Calculate your net proceeds when selling your home in Washington DC, Virginia, or Maryland. Get an accurate estimate of how much you'll walk away with after closing costs, commissions, and mortgage payoff. Fill in your details below to use our free seller net sheet calculator.
+            Calculate your net proceeds when selling your home in Dallas, Frisco, or the DFW Metroplex. Get an accurate estimate of how much you'll walk away with after closing costs, commissions, and mortgage payoff. Fill in your details below to use our free seller net sheet calculator.
           </p>
         </motion.div>
 
@@ -399,9 +406,12 @@ const NetSheetCalculator = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
                     style={{ fontSize: '16px' }}
                   >
-                    <option value="DC">Washington DC</option>
-                    <option value="VA">Virginia</option>
-                    <option value="MD">Maryland</option>
+                    <option value="Dallas">Dallas County</option>
+                    <option value="Collin">Collin County (Frisco, Plano, McKinney, Allen)</option>
+                    <option value="Denton">Denton County</option>
+                    <option value="Tarrant">Tarrant County (Fort Worth area)</option>
+                    <option value="Rockwall">Rockwall County</option>
+                    <option value="Other">Other DFW County</option>
                   </select>
                 </div>
 
@@ -499,7 +509,7 @@ const NetSheetCalculator = () => {
 
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Title Company Fees (DMV Average)
+                        Title Company Fees (DFW Average)
                       </label>
                       <div className="space-y-2 text-sm text-gray-600">
                         <div className="flex justify-between">
@@ -692,7 +702,7 @@ const NetSheetCalculator = () => {
                             <div className="group relative">
                               <Info size={14} className="text-gray-400 hover:text-primary cursor-help" />
                               <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-64 p-3 bg-navy text-white text-xs rounded-lg shadow-xl z-50">
-                                A tax paid when transferring property ownership, based on the sale price. Rates vary by location (DC: 1.1%, VA: varies by county, MD: 0.5%).
+                                A tax paid when transferring property ownership, based on the sale price. Texas does not have transfer taxes, so this will typically be $0 for DFW area properties.
                               </div>
                             </div>
                           </div>
@@ -720,7 +730,7 @@ const NetSheetCalculator = () => {
                             <div className="group relative">
                               <Info size={14} className="text-gray-400 hover:text-primary cursor-help" />
                               <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-64 p-3 bg-navy text-white text-xs rounded-lg shadow-xl z-50">
-                                Fees paid to the title company for handling the closing, including closing fees, processing fees, deed preparation, and recording services. DMV average: $1,425.
+                                Fees paid to the title company for handling the closing, including closing fees, processing fees, deed preparation, and recording services. DFW average: $1,425.
                               </div>
                             </div>
                           </div>
